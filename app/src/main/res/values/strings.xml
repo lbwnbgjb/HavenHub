@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">HavenHub</string>
+    <string name="prompt_attendance_status">请选择状态</string>
+    <string name="prompt_dormitory_status">请选择状态</string>
+    <string name="prompt_repair_status">请选择状态</string>
+    <string name="uninstall_title">卸载确认</string>
+    <string name="uninstall_content">确定要卸载此应用吗？</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">仪表盘</string>
+    <string name="title_notifications">通知</string>
+    <string name="title_me">我的</string>
 </resources>

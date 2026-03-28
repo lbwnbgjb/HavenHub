@@ -2,4 +2,33 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="my_light_primary">#F5B659</color>
+    <color name="yellow">#FAE7D2</color>
+    <!-- res/values/colors.xml -->
+    <!-- ===== 主色系 (Primary) ===== -->
+    <!-- 主色（按钮、高亮元素） -->
+    <color name="my_dark_primary">#BB86FC</color>
+    <!-- 主色上的文本/图标颜色（深色） -->
+    <color name="dark_on_primary">#000000</color>
+    <!-- 主色容器（按钮背景等） -->
+    <color name="dark_primary_container">#3700B3</color>
+    <!-- 主色容器上的文本/图标颜色（浅色） -->
+    <color name="dark_on_primary_container">#FFFFFF</color> <!-- 新增此行 -->
+
+    <!-- ===== 辅助色系 (Secondary) ===== -->
+    <color name="my_dark_secondary">#03DAC6</color>
+    <color name="dark_on_secondary">#000000</color>
+    <color name="dark_secondary_container">#018786</color>
+    <color name="dark_on_secondary_container">#FFFFFF</color> <!-- 可选添加 -->
+
+    <!-- ===== 背景与表面 ===== -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#1E1E1E</color>
+    <!-- 表面上的文本颜色 -->
+    <color name="dark_on_surface">#FFFFFF</color>
+
+    <!-- ===== 文本颜色 ===== -->
+    <color name="dark_text_primary">#E0E0E0</color>
+    <color name="dark_text_secondary">#9E9E9E</color>
+    <color name="dark_error">#CF6679</color>
 </resources>

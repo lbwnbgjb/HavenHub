@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dormitory_status">
+        <item>空闲</item>
+        <item>已分配</item>
+        <item>维修中</item>
+    </string-array>
+    <string-array name="attendance_status">
+        <item>出勤</item>
+        <item>缺勤</item>
+        <item>迟到</item>
+        <item>早退</item>
+    </string-array>
+    <string-array name="repair_status">
+        <item>待处理</item>
+        <item>处理中</item>
+        <item>已完成</item>
+    </string-array>
+</resources>

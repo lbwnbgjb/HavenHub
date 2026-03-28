@@ -12,6 +12,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HavenHub">
         <activity
+            android:name=".EditPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".dataManegerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".visitorManegerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".repairManegerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".kaoQinManegerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".suSeManegerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".studentManegerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRegister"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityLogin"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

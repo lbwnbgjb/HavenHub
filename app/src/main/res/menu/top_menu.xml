@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- 三个点菜单项 -->
+    <item
+        android:id="@+id/action_more"
+        android:title="黑名单"
+        app:showAsAction="never"/> <!-- 始终显示为图标 -->
+
+    <!-- 其他隐藏菜单项 -->
+    <item
+        android:id="@+id/action_settings"
+        android:title="通知设置"
+        app:showAsAction="never"/> <!-- 显示在弹出菜单中 -->
+
+    <item
+        android:id="@+id/action_about"
+        android:title="关于"
+        app:showAsAction="never"/>
+</menu>
