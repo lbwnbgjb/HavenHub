@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HavenHub">
         <activity
+            android:name=".nettest.NetTest1"
+            android:exported="false" />
+        <activity
             android:name=".EditPasswordActivity"
             android:exported="false" />
         <activity
