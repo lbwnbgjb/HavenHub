@@ -25,7 +25,7 @@ public class NetTest1 extends AppCompatActivity {
 
     private TextView name;
     private TextView studentId;
-    private static final String BASE_URL="http://192.168.10.182:8080/";
+    private static final String BASE_URL="http://10.103.95.176:8080/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
