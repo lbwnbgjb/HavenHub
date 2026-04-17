@@ -1,7 +1,12 @@
 package com.example.havenhub;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +19,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.havenhub.database.SQlite;
-import com.example.havenhub.database.User;
+//import com.example.havenhub.database.User;
+import com.example.havenhub.nettest.request.ApiClient;
+import com.example.havenhub.nettest.request.LoginRequest;
+import com.example.havenhub.nettest.request.LoginResponse;
+import com.example.havenhub.nettest.request.Student;
 import com.example.havenhub.utils.PasswordUtils;
 import com.example.havenhub.utils.DatabaseAsyncTask;
 
@@ -50,6 +59,7 @@ public class ActivityLogin extends AppCompatActivity {
             }
         });
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
                 String username=Loginusername.getText().toString().trim();
@@ -58,48 +68,100 @@ public class ActivityLogin extends AppCompatActivity {
                 if(TextUtils.isEmpty(username)||TextUtils.isEmpty(password)){
                     Toast.makeText(ActivityLogin.this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show();
                 }else {
-                    final String encryptedPassword = PasswordUtils.encryptPassword(password);
+                    //final String encryptedPassword = PasswordUtils.encryptPassword(password);
+
+                    login(username,password);
 
                     // 使用异步任务执行数据库操作
-                    new DatabaseAsyncTask<Void, Void, Boolean>() {
-                        @Override
-                        protected Boolean doInBackground(Void... voids) {
-                            try {
-                                ArrayList<User> data=mSQlite.getAllDATA();
-                                boolean user=false;
-                                for(int i=0;i<data.size();i++){
-                                    User userdata=data.get(i);
-                                    if(username.equals(userdata.getUsername())&&encryptedPassword.equals(userdata.getPassword())){
-                                        user=true;
-                                        break;
-                                    }else {
-                                        user=false;
-                                    }
-                                }
-                                return user;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                return false;
-                            }
-                        }
-
-                        @Override
-                        protected void onPostExecute(Boolean result) {
-                            // 不要调用super.onPostExecute(result)，因为父类会尝试调用null的mListener
-                            if(result) {
-                                Toast.makeText(ActivityLogin.this, "登录成功", Toast.LENGTH_SHORT).show();
-                                Intent intent2=new Intent(ActivityLogin.this, MainPageActivity.class);
-                                intent2.putExtra("username",username);
-                                intent2.putExtra("password",password);
-                                startActivity(intent2);
-                                finish();
-                            }else Toast.makeText(ActivityLogin.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
-                        }
-                    }.execute();
+//                    new DatabaseAsyncTask<Void, Void, Boolean>() {
+//                        @Override
+//                        protected Boolean doInBackground(Void... voids) {
+//                            try {
+//                                ArrayList<User> data=mSQlite.getAllDATA();
+//                                boolean user=false;
+//                                for(int i=0;i<data.size();i++){
+//                                    User userdata=data.get(i);
+//                                    if(username.equals(userdata.getUsername())&&encryptedPassword.equals(userdata.getPassword())){
+//                                        user=true;
+//                                        break;
+//                                    }else {
+//                                        user=false;
+//                                    }
+//                                }
+//                                return user;
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                                return false;
+//                            }
+//                        }
+//
+//                        @Override
+//                        protected void onPostExecute(Boolean result) {
+//                            // 不要调用super.onPostExecute(result)，因为父类会尝试调用null的mListener
+//                            if(result) {
+//                                Toast.makeText(ActivityLogin.this, "登录成功", Toast.LENGTH_SHORT).show();
+//                                Intent intent2=new Intent(ActivityLogin.this, MainPageActivity.class);
+//                                intent2.putExtra("username",username);
+//                                intent2.putExtra("password",password);
+//                                startActivity(intent2);
+//                                finish();
+//                            }else Toast.makeText(ActivityLogin.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }.execute();
                 }
 
             }
         });
 
     }
+
+    private void login(String username, String password) {
+
+        LoginRequest loginRequest = new LoginRequest(username, password);
+
+        Call<LoginResponse> call = ApiClient.getApiService().login(loginRequest);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.isSuccessful()) {
+
+                    LoginResponse loginResponse = response.body();
+
+                    if (loginResponse != null) {
+                        if(loginResponse.isSuccess()) {
+
+                            String realname = loginResponse.getName();
+                            String studentId = loginResponse.getStudentId();
+
+
+                            Toast.makeText(ActivityLogin.this, "登录成功", Toast.LENGTH_SHORT).show();
+
+                            Intent intent2 = new Intent(ActivityLogin.this, MainPageActivity.class);
+
+                            intent2.putExtra("name", realname);
+                            intent2.putExtra("username", studentId);
+                            startActivity(intent2);
+
+                            finish();
+
+                        }else {Toast.makeText(ActivityLogin.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();}
+
+                    }
+                }else {Toast.makeText(ActivityLogin.this,"服务器错误"+response.code(), Toast.LENGTH_SHORT).show();}
+
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(ActivityLogin.this, "网络错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+
+
 }

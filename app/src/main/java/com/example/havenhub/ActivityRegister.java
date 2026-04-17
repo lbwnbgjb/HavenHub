@@ -16,8 +16,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.havenhub.database.SQlite;
+import com.example.havenhub.nettest.request.ApiClient;
+import com.example.havenhub.nettest.request.LoginResponse;
+import com.example.havenhub.nettest.request.RetrofitClient;
+import com.example.havenhub.nettest.request.User;
 import com.example.havenhub.utils.PasswordUtils;
 import com.example.havenhub.utils.DatabaseAsyncTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ActivityRegister extends AppCompatActivity {
 
@@ -66,34 +73,72 @@ public class ActivityRegister extends AppCompatActivity {
                 if(TextUtils.isEmpty(username)||TextUtils.isEmpty(password)||TextUtils.isEmpty(name)) {
                     Toast.makeText(ActivityRegister.this, "请输入用户名或密码", Toast.LENGTH_SHORT).show();
                 }else {
-                    final String encryptedPassword = PasswordUtils.encryptPassword(password);
-                    final String finalUsername = username;
-                    final String finalName = name;
+
+                        User user = new User(username,name,password);
+                    Call<LoginResponse> call = ApiClient.getApiService().register(user);
+
+                    call.enqueue(new Callback<LoginResponse>(){
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
+                            if(response.isSuccessful()){
+                                LoginResponse loginResponse = response.body();
+                                if(loginResponse!=null){
+
+                                    if(loginResponse.isSuccess()) {
+
+                                        Toast.makeText(ActivityRegister.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
+                                        startActivity(intent);
+                                    }else{
+                                        Toast.makeText(ActivityRegister.this, "注册失败:"+loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }else Toast.makeText(ActivityRegister.this, "服务器返回错误"+response.code(), Toast.LENGTH_SHORT).show();
+
+
+                            }else Toast.makeText(ActivityRegister.this, "服务器错误"+response.code(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+                            Toast.makeText(ActivityRegister.this, "网络错误", Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    });
+
+
+
+
+
+//                    final String encryptedPassword = PasswordUtils.encryptPassword(password);
+//                    final String finalUsername = username;
+//                    final String finalName = name;
 
                     // 使用异步任务执行数据库操作
-                    new DatabaseAsyncTask<Void, Void, Boolean>() {
-                        @Override
-                        protected Boolean doInBackground(Void... voids) {
-                            try {
-                                mSQlite.add(finalUsername, encryptedPassword, finalName);
-                                return true;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                return false;
-                            }
-                        }
-
-                        @Override
-                        protected void onPostExecute(Boolean result) {
-                            super.onPostExecute(result);
-                            if(result) {
-                                Toast.makeText(ActivityRegister.this, "注册完成请前往登录", Toast.LENGTH_SHORT).show();
-                                finish();
-                            } else {
-                                Toast.makeText(ActivityRegister.this, "注册失败，请重试", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }.execute();
+//                    new DatabaseAsyncTask<Void, Void, Boolean>() {
+//                        @Override
+//                        protected Boolean doInBackground(Void... voids) {
+//                            try {
+//                                mSQlite.add(finalUsername, encryptedPassword, finalName);
+//                                return true;
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                                return false;
+//                            }
+//                        }
+//
+//                        @Override
+//                        protected void onPostExecute(Boolean result) {
+//                            super.onPostExecute(result);
+//                            if(result) {
+//                                Toast.makeText(ActivityRegister.this, "注册完成请前往登录", Toast.LENGTH_SHORT).show();
+//                                finish();
+//                            } else {
+//                                Toast.makeText(ActivityRegister.this, "注册失败，请重试", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    }.execute();
                 }
 
             }

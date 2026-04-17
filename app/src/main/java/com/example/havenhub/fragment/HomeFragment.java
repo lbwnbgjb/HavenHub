@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
         rootViews=inflater.inflate(R.layout.fragment_home,container,false);
         bundle=this.getArguments();
         TextView userName=rootViews.findViewById(R.id.userName);
-        userName.setText((bundle.getString("name")));
+        userName.setText((bundle.getString("username")));
 
 
         return rootViews;
