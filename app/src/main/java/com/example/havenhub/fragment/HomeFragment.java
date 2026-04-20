@@ -16,20 +16,23 @@ import android.widget.Toast;
 import com.example.havenhub.R;
 import com.example.havenhub.*;
 import com.example.havenhub.database.SQlite;
+import com.tencent.mmkv.MMKV;
 
 
 public class HomeFragment extends Fragment {
 
     private View rootViews;
-    Bundle bundle;
+    //Bundle bundle;
+    MMKV mmkv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootViews=inflater.inflate(R.layout.fragment_home,container,false);
-        bundle=this.getArguments();
-        TextView userName=rootViews.findViewById(R.id.userName);
-        userName.setText((bundle.getString("username")));
+      //  bundle=this.getArguments();
+        TextView realName=rootViews.findViewById(R.id.realName);
+        mmkv=MMKV.defaultMMKV();
+        realName.setText((mmkv.decodeString("realname")));
 
 
         return rootViews;

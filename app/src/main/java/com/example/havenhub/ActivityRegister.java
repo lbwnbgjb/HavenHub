@@ -1,11 +1,9 @@
 package com.example.havenhub;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,10 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.havenhub.database.SQlite;
 import com.example.havenhub.nettest.request.ApiClient;
 import com.example.havenhub.nettest.request.LoginResponse;
-import com.example.havenhub.nettest.request.RetrofitClient;
-import com.example.havenhub.nettest.request.User;
-import com.example.havenhub.utils.PasswordUtils;
-import com.example.havenhub.utils.DatabaseAsyncTask;
+import com.example.havenhub.nettest.request.RegisterRquest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +26,7 @@ public class ActivityRegister extends AppCompatActivity {
     private EditText Register_username;
     private EditText Register_password;
     private EditText Register_name;
+    private EditText register_gender;
     SQlite mSQlite;
 
     @Override
@@ -47,6 +43,7 @@ public class ActivityRegister extends AppCompatActivity {
         Register_username=findViewById(R.id.register_username);
         Register_password=findViewById(R.id.register_password);
         Register_name= findViewById(R.id.register_name);
+        register_gender=findViewById(R.id.register_gender);
         mSQlite=new SQlite(ActivityRegister.this);
         //回退到登录界面
         findViewById(R.id.textReturnLogin).setOnClickListener(new View.OnClickListener() {
@@ -69,46 +66,13 @@ public class ActivityRegister extends AppCompatActivity {
                 String username=Register_username.getText().toString().trim();
                 String password=Register_password.getText().toString().trim();
                 String name=Register_name.getText().toString().trim();
+                String gender=register_gender.getText().toString().trim();
 
                 if(TextUtils.isEmpty(username)||TextUtils.isEmpty(password)||TextUtils.isEmpty(name)) {
                     Toast.makeText(ActivityRegister.this, "请输入用户名或密码", Toast.LENGTH_SHORT).show();
                 }else {
 
-                        User user = new User(username,name,password);
-                    Call<LoginResponse> call = ApiClient.getApiService().register(user);
-
-                    call.enqueue(new Callback<LoginResponse>(){
-                        @Override
-                        public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
-                            if(response.isSuccessful()){
-                                LoginResponse loginResponse = response.body();
-                                if(loginResponse!=null){
-
-                                    if(loginResponse.isSuccess()) {
-
-                                        Toast.makeText(ActivityRegister.this, "注册成功", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
-                                        startActivity(intent);
-                                    }else{
-                                        Toast.makeText(ActivityRegister.this, "注册失败:"+loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }else Toast.makeText(ActivityRegister.this, "服务器返回错误"+response.code(), Toast.LENGTH_SHORT).show();
-
-
-                            }else Toast.makeText(ActivityRegister.this, "服务器错误"+response.code(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<LoginResponse> call, Throwable t) {
-
-                            Toast.makeText(ActivityRegister.this, "网络错误", Toast.LENGTH_SHORT).show();
-
-
-                        }
-                    });
-
-
-
+                    Register(username,name,password, gender);
 
 
 //                    final String encryptedPassword = PasswordUtils.encryptPassword(password);
@@ -145,7 +109,44 @@ public class ActivityRegister extends AppCompatActivity {
 
         });
 
+    }
 
+    public void Register(String username,String name,String password,String gender){
+
+        RegisterRquest registerRquest = new RegisterRquest(username,name,password,gender);
+
+        Call<LoginResponse> call = ApiClient.getApiService().register(registerRquest);
+
+        call.enqueue(new Callback<LoginResponse>(){
+            @Override
+            public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
+                if(response.isSuccessful()){
+                    LoginResponse loginResponse = response.body();
+                    if(loginResponse!=null){
+                        if(loginResponse.isSuccess()) {
+
+                            Toast.makeText(ActivityRegister.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(ActivityRegister.this, "注册失败:"+loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }else Toast.makeText(ActivityRegister.this, "服务器返回错误"+response.code(), Toast.LENGTH_SHORT).show();
+
+
+                }else Toast.makeText(ActivityRegister.this, "服务器错误"+response.code(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+                Toast.makeText(ActivityRegister.this, "网络错误", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
     }
+
+
 }

@@ -1,27 +1,25 @@
 package com.example.havenhub.nettest.request;
 
-public class User {
-    private int id;
+public class RegisterRquest {
     private String username;
     private String realname;
     private String password;
+    private String gender;
 
 
 
-
-    public User( String username, String realname, String password) {
+    public RegisterRquest(String username, String realname, String password, String gender) {
         this.username = username;
         this.realname = realname;
         this.password = password;
+        this.gender = gender;
     }
 
-    public int getId() {
-        return id;
+    public String getGender() {
+        return gender;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     public String getUsername() {
         return username;

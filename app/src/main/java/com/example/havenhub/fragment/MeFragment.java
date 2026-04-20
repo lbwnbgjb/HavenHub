@@ -19,6 +19,7 @@ import com.example.havenhub.ActivityLogin;
 import com.example.havenhub.EditPasswordActivity;
 import com.example.havenhub.R;
 import com.example.havenhub.setingActivity;
+import com.tencent.mmkv.MMKV;
 
 
 public class MeFragment extends Fragment {
@@ -26,19 +27,18 @@ public class MeFragment extends Fragment {
     private View rootViews;
     TextView username;
     TextView name;
-    Bundle bundle;
+    private MMKV mmkv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootViews = inflater.inflate(R.layout.fragment_me, container, false);
-
-        bundle=this.getArguments();
+        mmkv=MMKV.defaultMMKV();
         username=rootViews.findViewById(R.id.username);
         name=rootViews.findViewById(R.id.name);
-        username.setText(bundle.getString("username"));
-        name.setText(bundle.getString("name"));
+        username.setText(mmkv.decodeString("username"));
+        name.setText(mmkv.decodeString("realname"));
         return rootViews;
     }
 

@@ -6,8 +6,8 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ServiceAPI {
-  @GET("api/student/info")
-    Call<Student>getStudentInfo();
+  @POST("api/student/info")
+    Call<Student>getStudentInfo(@Body Student student);
 
 
   // 登录接口
@@ -16,7 +16,7 @@ public interface ServiceAPI {
 
   // 注册接口
   @POST("api/register")
-  Call<LoginResponse> register(@Body User User);
+  Call<LoginResponse> register(@Body RegisterRquest RegisterRquest);
 
   // 测试接口
   @GET("api/test")

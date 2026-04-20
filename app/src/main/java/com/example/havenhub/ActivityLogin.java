@@ -26,13 +26,15 @@ import com.example.havenhub.nettest.request.LoginResponse;
 import com.example.havenhub.nettest.request.Student;
 import com.example.havenhub.utils.PasswordUtils;
 import com.example.havenhub.utils.DatabaseAsyncTask;
+import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
 
 public class ActivityLogin extends AppCompatActivity {
     private EditText Loginusername;
     private EditText Loginpassword;
-    private SQlite mSQlite;
+    private MMKV mmkv;
+    //private SQlite mSQlite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,10 @@ public class ActivityLogin extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        mmkv=MMKV.defaultMMKV();
         Loginusername=findViewById(R.id.editText);
         Loginpassword=findViewById(R.id.editTextTextPassword);
-        mSQlite=new SQlite(ActivityLogin.this);
+       // mSQlite=new SQlite(ActivityLogin.this);
 
         //点击注册
         findViewById(R.id.register_btn).setOnClickListener(new View.OnClickListener() {
@@ -139,8 +141,8 @@ public class ActivityLogin extends AppCompatActivity {
 
                             Intent intent2 = new Intent(ActivityLogin.this, MainPageActivity.class);
 
-                            intent2.putExtra("name", realname);
-                            intent2.putExtra("username", studentId);
+                            mmkv.encode("username", studentId);
+                            mmkv.encode("realname", realname);
                             startActivity(intent2);
 
                             finish();
@@ -148,7 +150,7 @@ public class ActivityLogin extends AppCompatActivity {
                         }else {Toast.makeText(ActivityLogin.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();}
 
                     }
-                }else {Toast.makeText(ActivityLogin.this,"服务器错误"+response.code(), Toast.LENGTH_SHORT).show();}
+                }else {Toast.makeText(ActivityLogin.this,"服务器返回为空"+response.code(), Toast.LENGTH_SHORT).show();}
 
             }
 

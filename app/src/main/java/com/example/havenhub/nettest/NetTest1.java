@@ -11,8 +11,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.havenhub.R;
+import com.example.havenhub.nettest.request.ApiClient;
 import com.example.havenhub.nettest.request.ServiceAPI;
 import com.example.havenhub.nettest.request.Student;
+import com.tencent.mmkv.MMKV;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +27,9 @@ public class NetTest1 extends AppCompatActivity {
 
     private TextView name;
     private TextView studentId;
+    private TextView gender;
     private static final String BASE_URL="http://192.168.10.182:8080/";
+    private MMKV mmkv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,22 +44,32 @@ public class NetTest1 extends AppCompatActivity {
 
         name=findViewById(R.id.name);
         studentId=findViewById(R.id.numer);
+        gender=findViewById(R.id.gender);
 
-        Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        mmkv=MMKV.defaultMMKV();
 
-        ServiceAPI serviceAPI=retrofit.create(ServiceAPI.class);
-        Call<Student> call=serviceAPI.getStudentInfo();
+//        Retrofit retrofit=new Retrofit.Builder()
+//                .baseUrl(BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        ServiceAPI serviceAPI=retrofit.create(ServiceAPI.class);
+//        Call<Student> call=serviceAPI.getStudentInfo();
+
+        Student student=new Student();
+        student.setStudentId(mmkv.decodeString("username"));
+
+        Call<Student> call= ApiClient.getApiService().getStudentInfo(student);
 
         call.enqueue(new Callback<Student>() {
             @Override
             public void onResponse(Call<Student> call, Response<Student> response) {
                 if (response.isSuccessful()&&response.body()!=null){
-                    Student student=response.body();
-                    name.setText(student.getName());
-                    studentId.setText(student.getStudentId());
+                    Student responseStudent=response.body();
+                    name.setText(responseStudent.getName());
+                    studentId.setText(responseStudent.getStudentId());
+                    Toast.makeText(NetTest1.this, "请求成功"+responseStudent.getGender(), Toast.LENGTH_SHORT).show();
+                    gender.setText(responseStudent.getGender());
 
                 }else {
                     Toast.makeText(NetTest1.this, "请求失败", Toast.LENGTH_SHORT).show();
