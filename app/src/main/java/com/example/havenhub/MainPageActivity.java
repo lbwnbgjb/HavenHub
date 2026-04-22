@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.havenhub.database.SQlite;
 import com.example.havenhub.fragment.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tencent.mmkv.MMKV;
 
 public class MainPageActivity extends AppCompatActivity {
     private HomeFragment mHomeFragment;
@@ -25,6 +26,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     private String username;
     private SQlite mSqlite;
+    private MMKV mmkv;
 
     public String name;
     private BottomNavigationView mBottomNavigationView;
@@ -33,20 +35,23 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+        mmkv=MMKV.defaultMMKV();
 
+
+        username = mmkv.decodeString("username");
         // 恢复数据（如果Activity被重建）
-        if (savedInstanceState != null) {
-            username = savedInstanceState.getString("username", "");
-        } else {
-            // 从Intent获取数据
-            Intent intent = getIntent();
-            if (intent != null) {
-                username = intent.getStringExtra("username");
-            }
-        }
+//        if (savedInstanceState != null) {
+//            username = mmkv.decodeString("username");
+//        } else {
+//            // 从Intent获取数据
+//            Intent intent = getIntent();
+//            if (intent != null) {
+//                username = intent.getStringExtra("username");
+//            }
+//        }
 
         // 初始化数据库
-        mSqlite = new SQlite(MainPageActivity.this);
+        //mSqlite = new SQlite(MainPageActivity.this);
 
         // 初始化控件
         mBottomNavigationView = findViewById(R.id.bottomNav);
