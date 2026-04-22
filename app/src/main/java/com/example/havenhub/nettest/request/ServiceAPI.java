@@ -9,6 +9,8 @@ public interface ServiceAPI {
   @POST("api/student/info")
     Call<Student>getStudentInfo(@Body Student student);
 
+  @POST("api/student/update")
+  Call<StudentUpdateResponse>updateStudentPassword(@Body StudentUpdateRequest request);
 
   // 登录接口
   @POST("api/login")

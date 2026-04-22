@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        MMKV.initialize(getApplication());
+        //MMKV.initialize(getApplication());
 
         Button button=findViewById(R.id.button);
         Intent intent=new Intent(MainActivity.this,ActivityLogin.class);

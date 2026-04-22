@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.HavenHub">
+        android:theme="@style/Theme.HavenHub"
+        android:name=".MainApplication" >
         <activity
             android:name=".nettest.NetTest1"
             android:exported="false" />

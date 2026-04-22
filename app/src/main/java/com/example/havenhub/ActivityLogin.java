@@ -50,7 +50,7 @@ public class ActivityLogin extends AppCompatActivity {
         Loginusername=findViewById(R.id.editText);
         Loginpassword=findViewById(R.id.editTextTextPassword);
        // mSQlite=new SQlite(ActivityLogin.this);
-
+        Loginusername.setText(mmkv.decodeString("username"));
         //点击注册
         findViewById(R.id.register_btn).setOnClickListener(new View.OnClickListener() {
             @Override
