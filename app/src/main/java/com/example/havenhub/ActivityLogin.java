@@ -26,6 +26,7 @@ import com.example.havenhub.nettest.request.LoginResponse;
 import com.example.havenhub.nettest.request.Student;
 import com.example.havenhub.utils.PasswordUtils;
 import com.example.havenhub.utils.DatabaseAsyncTask;
+import com.example.havenhub.xuexi.StudyActivity;
 import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
@@ -60,6 +61,19 @@ public class ActivityLogin extends AppCompatActivity {
 
             }
         });
+
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ActivityLogin.this, StudyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override

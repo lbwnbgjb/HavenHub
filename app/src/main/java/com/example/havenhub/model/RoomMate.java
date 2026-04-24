@@ -1,15 +1,17 @@
-package com.example.havenhub.modle;
+package com.example.havenhub.model;
 
 public class RoomMate {
     private String name;
     private String StudentId;
+    private int age;
     private String ziZe;
 
 
-    public RoomMate(String name, String studentId, String ziZe) {
+    public RoomMate(String name, String StudentId, String ziZe, int age) {
         this.name = name;
-        StudentId = studentId;
+        this.StudentId = StudentId;
         this.ziZe = ziZe;
+        this.age = age;
     }
 
     public String getName() {
@@ -35,4 +37,14 @@ public class RoomMate {
     public void setZiZe(String ziZe) {
         this.ziZe = ziZe;
     }
+
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
 }

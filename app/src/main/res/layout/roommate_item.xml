@@ -44,11 +44,11 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/text_date"
+                    android:id="@+id/tv_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="学号:"
+                    android:text="年龄:"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -60,14 +60,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/text_status"
+                    android:id="@+id/tv_zhiwei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="职位:"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/text_remark"
+                    android:id="@+id/tv_remark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
